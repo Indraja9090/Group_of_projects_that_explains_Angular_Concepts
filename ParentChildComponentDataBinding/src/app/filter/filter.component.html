@@ -1,0 +1,38 @@
+<!--CONCEPT : Passing data from child-component to parent component 
+                   using `Event binding` with `@Output` decorator -->
+                   
+    <!-- Always make sure `FormsModule` has been imported at `AppModule` class
+                             while using `[(ngModel)]` two-way binding directive.-->
+
+    <!-- Whenever the selection of <input> radio-button at webpage changes, `(change)` event will happen at webpage.
+            Hence we bind `(change)` event to `onRadioButtonselectionChanged()`,
+                        inorder to raise the custom-event i.e.,`(filterRadioButtonSelectionChanged)` which emits 
+                                            the `value` of <input> radio button at webpage.  
+                And this `value` we gonna store in `selectedRadioButtonValue` property-->
+
+<div class="filter-container">
+    <span>Filter:</span>   
+    <input type="radio" name="filter" value="All" 
+            [(ngModel)]="selectedRadioButtonValue"            
+            (change)="onRadioButtonSelectionChanged()"/>
+    <span>{{ 'All Courses('+all+')' }}</span>
+    
+    <input type="radio" name="filter" value="Free" 
+                [(ngModel)]="selectedRadioButtonValue"
+                (change)="onRadioButtonSelectionChanged()"/>
+    <span>{{ 'Free Courses('+free+')' }}</span>
+
+    <input type="radio" name="filter" value="Premium" 
+                [(ngModel)]="selectedRadioButtonValue"
+                (change)="onRadioButtonSelectionChanged()" />
+    <span>{{ 'Premium Courses('+premium+')' }}</span>
+
+</div>
+<!-- Radio buttons are used to allow the user to select one option from a group of options.
+     This attribute assigns a name to the radio button.
+     When multiple radio buttons share the same name, they form a group,
+     And only one radio button in the group can be selected at a time.
+     The name attribute is used to identify which group this radio button belongs to.
+     This attribute defines the value associated with the radio button.
+     When this radio button is selected, the value "all" will be submitted as part of the form data. 
+     This value can be used by server-side scripts or JavaScript to determine the selected option.-->

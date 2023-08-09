@@ -1,0 +1,52 @@
+<!--CONCEPT : 1.The `@ViewChild decorator` - is used in Angular to obtain a reference to a child component or element in a parent component.
+              2.The parameters passed to @ViewChild specify the component or element to be referenced and additional configuration options.
+              HENCE HERE,
+              We define Component class property using `@ViewChild` decorator which takes <element>'s `ref-var` which means,
+              this property will be binded with this 'ref-var` inorder to get access DOM reference to host <element #ref-var>  -->
+ 
+<div>
+  <label>DOB: </label>
+<!-- Adding local-reference-variable `#dobInput` to this <input> element -->
+<!-- `calculateAge()` will be called,
+     whenever `(blur)` event triggered on this UI <input> -->
+  <input type="date" #dobInput (blur)="calculateAge()">
+</div>
+
+<div>
+  <label>Age: </label>
+  <input type="text" #ageInput>
+</div>
+<!--CONCEPT : How to access the ChildComponent class properties in the ParentComponent class using `@ViewChild` decorator -->
+<app-demo></app-demo>
+<!--HERE `demoComp` is an instance of `DemoComponent` class which has `sayHello()` method-->
+{{ demoComp.sayHello() }} <!--At developer console we see the sayHello()'s log statement-->
+
+<!-- NOTE:  Sometimes we might want to access the DOM <html element> reference before calling a method(), 
+               Here comes the usage of @ViewChild() decorator.
+  EXPLANATION - 
+  REMEMBER! : At demo.html(in `TemplateReference` project)
+            1. Inorder to modify webpage by getting access to <html element> DOM reference,
+                          we created local-reference-variable of that <html element>.
+                                            passed to associated
+              `Component` class method() as its argument/parameter of type HTMLInputElement.
+
+              EXAMPLE :   <input type="text" #myVariable>
+                          <button (click)="sayHello(myVariable)">Say Hello</button>
+            
+            
+            2. Hence in this sayHello()
+                          - we define the webpage modifications by accessing PROPERTIES
+              that host <html element-which has #local-reference-variable> has in DOM and,
+                          - AND, By binding this `sayHello()` using HTML `Event` lister `(click)` then those 
+                                webpage modifications defined in `sayHello()` will  appear UI.
+
+              EXAMPLE :sayHello(inputRef: HTMLInputElement){ webpage modifications logic  }
+
+                Which means whenever specified `Event` i.e.,`(click)` happens on corresponding <html element> 
+                  then Angular calls this `sayHello()` whoes argument has DOM reference to 
+              <html element-which has #local-reference-variable>          
+-->
+
+<!-- NOTE THAT :  The (blur) event is triggered when the UI <input> loses focus. 
+     i.e.,whenever user click on UI <input> date-textbox to select the date a `(focus)` event will happen and,
+          as soon as user clicks outside of UI <input> date-texbox a `(blur)` event will happen 		-->             

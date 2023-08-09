@@ -1,0 +1,13 @@
+<!-- CONCEPT : Using `Subjects` from rxjs library we pass data from one Component to other Component
+                                          who doesnt have parent-child relationship -->
+<div>
+  <app-comp1></app-comp1>
+</div>
+<div>
+  <app-comp2></app-comp2>
+</div>
+<!--If multiple subcriptions done on same Observable created by `interval` operator
+          we could able to unsubscribe ONLY THE LAST SUBCRIBED  Observable
+    hence its very impoertant to unsubcribe the Observable when not required anymore-->
+<button (click)="subscribeObs()">Subscribe</button>
+<button (click)="unSubscribeObs()">Unsubscribe</button>

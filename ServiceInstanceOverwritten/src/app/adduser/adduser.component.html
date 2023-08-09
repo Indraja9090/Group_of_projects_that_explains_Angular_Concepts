@@ -1,0 +1,16 @@
+<div class="form">
+    <div>
+        <!--ALWAYS REMEMBER - To use [(ngModel)] we mush have imported `FormsModule` package to @NgModule of AppModule-->
+        <input type="text" placeholder="Username" id="username" [(ngModel)]="newUserName">
+    </div>
+    <div>
+        <select name="status" id="status" [(ngModel)]="newUserStatus">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+    </div>
+    <div>
+        <button (click)="addUser()">Create User</button>
+    </div>
+</div>
+  

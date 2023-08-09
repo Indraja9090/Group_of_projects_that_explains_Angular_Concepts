@@ -1,0 +1,27 @@
+<!-- CONCEPT : Attribute Directive - Used to add a CSS class dynamically to a group of elements in webpage-->
+<div class="search-div" [ngClass]="{changeBackground: searchValue != ''}">
+    <span><b>Search:</b></span>
+
+<!--CONCEPT : One-way Binding - Using, `Event Binding` - We can bind webpage events/user-actions to a component class property/methods
+                    Using `Event Binding` we can pass data from DOM view to component'
+                    Use () for `Event Binding` -->
+<!-- Whenever an event happens on DOM <input> textfield, that event emits some event-data.That means,
+    whenever this event - `(input)` happens, it will emit some event-data related to it.
+    That event-data will be passed an `argument/parameter` to method `changeSearchValue()` -->
+
+<!-- <input type="text" (input)="changeSearchValue($event)"> -->
+
+<!-- CONCEPT : Two-Way Binding - Combination of `Property Binding` and `Event Binding` 
+    We can bind data from Component class to DOM view template and DOM view template to component class
+    Use [(ngModel)] for TWO-WAY Binding
+    To use `ngModel` We need to Declare 'FormsModule' at 'imports: []' - object property of @NgModule directive,
+    by importing `FormsModule` package from `@angular/forms`  at AppModule class      -->
+
+    <input type="text" [(ngModel)]="searchValue" (click)="clearSearchValue()">
+<!--CONCEPT : Structural Directive
+            Used to add/remove elemnet from a webpage based on a given Condition.
+            If condition returns `true` - adds element to webpage
+            If condition returns `false` - removes element from webpage-->
+    <span style="margin-left: 10px;" 
+              *ngIf="searchValue != 'search here' ">You have searched for " {{ searchValue }} "</span>
+</div>

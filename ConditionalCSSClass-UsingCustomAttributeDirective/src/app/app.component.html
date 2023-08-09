@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="video-container" *ngFor=" let video of videos"><!--Hence for each iteration variable `video` gonna receive an `object` from `videos` Array-->  
+    <div class="video-card" [appHighlight]="video.likes === mostLikedVideo.likes">
+      <div>
+        <img [src]="video.thumbnail" style="width: 220px; height: 210px;">
+      </div>
+      <div><h4>{{ video.title }}</h4></div>
+      <div class="details">
+        <div class="video-data">
+          <!--Install and configure the `Material Icons library` in your Angular Application to use CSS`material-icons` class.
+                      1. npm install material-icons --save
+                      2. "styles": [
+                            "src/styles.css",
+                            "node_modules/material-icons/iconfont/material-icons.css"
+                          ]
+          -->
+          <!--The <i> element in HTML is commonly used to represent icons or small graphical elements.
+              By applying the "material-icons" class to the <i> element, you can style it to display a Material Design icon.-->
+          <i class="material-icons">thumb_up</i>{{ video.likes }}
+        </div>	
+        <div class="video-data">
+          <i class="material-icons">thumb_down</i>{{ video.dislikes }}
+        </div>
+        <div class="video-data">
+          <i class="material-icons">share</i>{{ video.share }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 

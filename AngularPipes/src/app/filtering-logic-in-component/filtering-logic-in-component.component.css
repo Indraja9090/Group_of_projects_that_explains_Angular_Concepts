@@ -1,0 +1,28 @@
+.container {
+    margin: 10px auto;
+    padding: 20px;
+  }
+  
+  table  {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #080808;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  th {
+    background-color: #278a27;
+  }
+  
+  table#student tr:nth-child(even) {
+    background-color: #e7e5e5;
+  }
+  
+  table#student tr:hover {
+    background-color: #9c9a9a;
+  }
+  

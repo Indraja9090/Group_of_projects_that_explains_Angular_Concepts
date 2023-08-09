@@ -1,0 +1,17 @@
+<div class="header">
+    <div class="site-image">
+        <!-- CONCEPT : One-Way Data Binding - Using,
+          `Property Binding` -  We can bind property of a HTML DOM object to the property/method of component class-->
+        <!-- Use [] for `Property Binidng` -->
+          <!-- when view template  will be rendered in web page.
+            for each of elements in template an object will be created in DOM-->
+        <!-- Hence for <img> also an object will be created in DOM and that obj will have a `src` property-->
+        <!--We can bind this `src` DOM property to the property/method in component class using `property` binding.-->
+        <img [src]="imgSource" height="240" width="320">
+    </div>
+    <div class="site-slogan">
+        <h2>{{ slogan }}</h2>
+        <h3>{{ 12+24+48 }}</h3>
+        <h4>{{ getSlogan() }}</h4>
+    </div>
+</div>

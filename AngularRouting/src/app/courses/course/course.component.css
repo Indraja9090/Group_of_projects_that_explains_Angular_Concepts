@@ -1,0 +1,21 @@
+.course-container{
+    margin: 10px 450px;
+    background-color: rgb(161, 156, 156);
+    padding-bottom: 10px;     
+}
+.course-details{
+    display: flex;
+}
+input{
+    width: 80%; 
+    text-align: center; 
+    height: 20px;    
+}
+.hyperlink-container{
+    text-align: center;
+}
+button{    
+    /* property allows the button to expand horizontally based on its content*/
+    display: inline-block;
+    padding: 10px 20px;
+}

@@ -1,0 +1,74 @@
+<div class="container">
+    <div>
+        <!--NOTE THAT : 
+            The <input> element here is binding to the "filterText" property, which is the getter method defined in the component.
+         This allows the value entered in the UI input field to be stored in the private variable "_filterText" and accessed using the getter method.
+    hence the getter method will be called when binding needs to read the UI textbox value
+    Two way binding is used to capture changes in the input field and call the setName() method, passing the new value as an argument.
+    However setter method will be called everytime the value in the <input> textbox will change-->
+      <input type="text" placeholder="Search by gender" [(ngModel)]="filterText"
+                       style="width: 450px; padding: 2px 2px; margin: 10px; height: 30px;">
+    </div>
+    <!--CONCEPT : `async` pipe 
+            How we can handle asynchronous data  using `async` pipe--> 
+    <div>
+      <!-- we're trying to directly display the Promise object `totalStudents` in the template using interpolation `{{ totalStudents }}`.
+        When the template is rendered, it doesn't directly display the resolved value of the Promise,
+                        but instead outputs the string representation of the Promise object `[object Promise]`,
+                                which is the default behavior when trying to display an object directly in the template.
+              So In UI <h2> will be rendered as ---- Total Students: [object Promise]   
+        To correctly display the resolved value of the Promise, you need to use the `AsyncPipe`, 
+              which handles the asynchronous nature of the Promise and displays the resolved value once it becomes available.-->
+      <h2>Total Students: {{ totalStudents | async}}</h2>
+    </div>
+    <table id="student" (mousemove)="onMouseMove()">
+      <tr>
+        <th>Name</th>
+        <th>Course</th>
+        <th>Marks</th>
+        <th></th>
+        <th>Percentage</th>
+        <th>DOB</th>
+        <th>Gender</th>
+      </tr>
+      <tr *ngFor="let std of filteredStudents">
+        <td>{{std.name}}</td>
+        <td>{{std.course}}</td>
+        <td>{{std.marks}}</td>
+        <td>{{std.marks | custompercentagepipe: totalMarks : 2 }}</td>
+        <td><input type="number" value="std.marks" [(ngModel)]="std.marks"></td>     
+        <td>{{std.DOB | date: 'fullDate' | uppercase}}</td>
+        <td>{{std.gender | lowercase | uppercase }}</td>
+      </tr>
+    </table>
+    <br><br>
+    <button (click)="addStudent()">Add Student</button>
+    <button (click)="changeGender()">Change Gender</button>
+  </div>
+ <!--Here are a few scenarios in which the getter method is typically invoked:
+
+ `Template Rendering`: If you bind a property to a template expression using 
+        interpolation ({{ }}), property binding ([ ]), or two-way binding ([( )]),
+        the getter method associated with that property will be called during template rendering to retrieve the value.
+ `Component Code`: When you access the property within the component class code, 
+          such as in methods, lifecycle hooks, or other component logic, 
+          the getter method will be invoked to retrieve the value. 
+ `Dependency Injection`: If you use dependency injection to inject a component with another service or component, 
+                        the getter method may be called as part of the dependency injection process.
+ 
+ It's important to note that the getter method is not triggered automatically by the framework
+                                 but rather invoked when the property is accessed in the relevant context. 
+ In summary, the getter method is called when you access or reference the associated property in the template or within the component code.-->
+
+ <!--we added the AsyncPipe `| async` to the `totalStudents` variable in the template. 
+              This pipe subscribes to the Promise and displays the resolved value once it is available.
+    Hence  when the template is rendered, 
+          the AsyncPipe automatically handles the subscription to the totalStudents Promise.
+   It waits for the Promise to resolve, and once the resolved value  `this.filteredStudents.length` is available, 
+                    it displays it as the total number of students in the template.
+
+By using the AsyncPipe, we ensure that the resolved value of the Promise is displayed correctly in the template,
+                                                             rather than the string representation of the Promise object.-->
+  
+  
+  

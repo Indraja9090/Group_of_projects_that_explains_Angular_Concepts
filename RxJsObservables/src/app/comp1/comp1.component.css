@@ -1,0 +1,12 @@
+.container{
+    margin: 30px auto;
+    /* allows the container to adjust its width and height based on its content.*/
+    display: flex;
+    /* or display: inline-block; */
+    background-color: aqua;
+    padding: 10px 10px;
+    max-width: fit-content;
+}
+button{
+    margin: 0px 10px;
+}

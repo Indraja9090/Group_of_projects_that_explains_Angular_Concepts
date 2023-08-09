@@ -1,0 +1,11 @@
+
+<div class="search-container">
+    <span><b style="font-size: 20px;">Search:</b></span>
+    <!--whatever the user enter in <input> textbox that data will be saved in `enterSearchvale` property-->
+
+    <!--Whenever user tries to type in UI <input> textbox an `(input)` event will happen.
+        So Here we gonna bind `(input)` event to `onSearchtextChanged()`,
+                     inorder to raise custom-event `(searchTextChanged)`
+                                             which emits `enterSearchValue` property value -->
+    <input type="text" [(ngModel)]="enterSearchValue" (input)="onSearchTextChanged()">
+</div>

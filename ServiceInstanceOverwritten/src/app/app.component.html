@@ -1,0 +1,27 @@
+<!--CONCEPT : Instance can override the instance created by ParentComponent in the ChildComponent
+
+  Angular inject the Dependencies on a Hierarchical basis that means,
+		when we provide a Service on a Component,Angular will create and inject an instance of that Service
+                                        for that Component and for all its ChildComponents and their ChildComponents.-->
+
+<!-- CONCEPT : Injecting a `ServiceB` into another `ServiceA`
+                  Apparently we have to inject the `ServiceB` to other CLASS which require services of `ServiceB`as their dependency 
+    To avoid dependency bugs we provided `ServiceB` to `AppComponent`, as it is the parent component
+                                       whose dependency instance available to all its ChildComponents though-->
+<div class="container">
+  <!--If we explicitly specified `providers` to @Component of `AdduserComponent` 
+           Hence Angular creates and inject a new instance for `AdduserComponent` 
+                instead of using instance created for its parent component `AppComponent` 
+              
+      So, input event Actions performed in view template of `AdduserComponent`,their event data will be added to 
+               its separate instance `userService` created and injected for `AdduserComponent`
+      Hence its parent compponent `AppComponent` instance doesnt have those input actions event data
+                                     to render into it associated view template--> 
+  <app-adduser></app-adduser>
+  <!--Here we are looping over the `users` whose array values are assigned with `UserService` class property values
+              by creating instance `userService` to `UserService` class and injecting as dependency to `AppComponent` -->
+  <div class="user-div" *ngFor="let user of users">
+    <div class="user-name">{{user.name}}</div>
+    <div class="user-status">{{user.status}}</div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<!-- CONCEPT : @ContentChild
+    1. Ingeneral we use @ViewChild() decorator to access HTML elements, Components or directives
+		 		from view template in associated Component class.
+	In simple terms we can access the view template of a Component using @ViewChild decorator.
+
+    2. Ingeneral `Content Pro-jection` - is that we pro-ject the ChildComponent's <selector> CONTENT in 
+			 ParentComponent VIEW TEMPLATE to ChildComponent VIEW TEMPLATE using <ng-content> directive.-->
+
+<!-- We use @ContentChild decorator to access HTML elements, Components or directives
+		from ParentComponent TEMPLATE to ChildComponent CLASS		-->
+<h2>This is a AppComponent</h2>
+<app-demo>
+  <!-- Below Commented <p> explains <ng-content> usage -->
+  <!--<p>Am pro-jected content from ParentComponent TEMPLATE to ChildComponent TEMPLATE</p> -->
+  <p #paragraph>Am passed from ParentComponent TEMPLATE to ChildComponent CLASS</p>
+</app-demo>

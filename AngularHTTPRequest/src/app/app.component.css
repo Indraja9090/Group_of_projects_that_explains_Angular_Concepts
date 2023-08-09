@@ -1,0 +1,67 @@
+.mian-area {
+    width: 70%;
+    margin: 30px;
+  }
+  
+  .content-area {
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-area {
+    margin-bottom: 20px;
+  }
+  
+  .product-display {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="submit"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  #products {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #products th,
+  #products td {
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+  
+  #products th {
+    background-color: #9ff58a;
+    
+  }
+  

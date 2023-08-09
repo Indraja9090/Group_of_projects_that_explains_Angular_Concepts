@@ -1,0 +1,65 @@
+<div class="course-container">
+    <div>
+        <img src="{{course.image}}" style="width: 100%; height: 180px">
+    </div>
+    <div>
+        <h1 style="text-align: center;" *ngIf="!editMode">{{course.name}}</h1>
+        <div style="padding-bottom: 25px; margin-left: 60px;" *ngIf="editMode">
+            <input   type="text" [(ngModel)]="course.name">
+        </div>
+    </div>
+    <div class="course-details">
+        <div style="margin: 0px 10px;"><b>Author: </b>{{course.author}}</div>
+        <div style="margin: 0px 10px;"><b>Duration: </b>{{course.duration}}</div>
+        <div style="margin: 0px 10px;"><b>Type: </b>{{course.type}}</div>
+    </div>
+    <div style="margin: 0px 10px;">
+        <h2>Price: ${{course.price}}</h2>
+    </div>
+    <div style="margin: 20px 10px;">
+        <p>{{course.description}}</p>
+    </div>
+                            <!--CONCEPT : `queryParams` -->
+    <!--<button [routerLink]="['/courses/course', course.id]" [queryParams]="{edit: true}">AppendQueryParams</button>-->
+
+    <!--CONCEPT : how to append `query parameters` to active URL programetically-->
+    <button (click)="retrieveQueryParams()">EditMode Appear</button>
+    <button (click)="editMode=false" [routerLink]="['/courses/course', course.id]">Update</button>
+</div>
+<!--CONCEPT : `CourseComponent`  retrieving the route parameter i.e., `id` value using `snapshot.paramMap` property
+                in `ngOnInit()` method (which will be executed ONLY ONCE when `CourseComponent is full initialized)
+    HENCE ``snapshot.paramMap` will return only the initial value of `route paramter` but 
+                                    will not return the updated value of `route parameter`
+    HOWEVER we can use `Observable` to retieve the route parameter everytime it change-->
+<div class="hyperlink-container">
+    <!--In the `routerLink` attribute, we bind to an array to specify the route and any associated parameters.
+         The array elements represent the different segments of the route. In this case, 
+                            the route is /courses/course and the parameter value is 101.-->
+    <a [routerLink]="['/courses/course', 101]" > Goto respective course</a>    
+</div>
+<!--In Angular, when the route parameter changes, the component is destroyed and then
+                                                             re-created with the new route parameter value.
+    This means that the ngOnInit() method will be called again with the new parameter value,
+                                             and the courseId property will be assigned accordingly.
+-->
+<!--The `snapshot.paramMap` in the ngOnInit method retrieves the route parameter value from the current route, 
+                                                                                    not from the `routerLink` attribute.
+-->
+<!-- `queryParams` is an Attribute directive are used to provide additional information or filters for a particular route
+        We can pass object to `queryParams` and are appended to the `routerLink` URL after a question mark (?) and
+                    are specified as key-value pairs separated by an equal sign (=). For example, /users?id=123
+-->
+<!--Here when we click on ` Goto respective course` the path `/course` will not change which means
+     angular doesnt know that user is again trying to navigate to `/course` 
+            hence it reuses the existing instance but doesnt create new instance to CourseComponent
+    So, Since angular uses existing CourseComponnet instance the `ngOnInit()` will not be called again 
+        Obviously `snapshot.paramMap` cannot retrieve `101` from activated route and 
+                                                 will not assign to `courseId` property -->
+<!-- If we are currently on the URL http://localhost:4200/courses/course/103?edit=true and
+     Hence in this page If we click the button, 
+                <button (click)="editMode=false" [routerLink]="['/courses/course']">Update</button>
+        Where the `routerLink` attribute is set to ['/courses/course']. 
+This means that when you click the button, it should navigate to the URL http://localhost:4200/courses/course.
+                                HOWEVER the URL will not change.
+ The reason is that the `routerLink` attribute we provided DOES NOT INCLUDE ANY ROUTE PARAMETERs OR QUERY PARAMETERs.
+  It is simply navigating to the base route `/courses/course`, which is the same as the current URL.-->

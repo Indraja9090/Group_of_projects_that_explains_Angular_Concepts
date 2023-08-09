@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* CSS styles that are specified here will be applied globally
+          i.e., to all Component's HTML elements */
+
+button{
+    width: 120px;
+    height: 30px;
+    border: none;
+    text-align: center;
+    background-color: coral;
+}

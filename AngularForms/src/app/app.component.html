@@ -1,0 +1,147 @@
+<!--CONCEPT : `Template Driven Forms`
+      IMPORTANT TO REMEMBER:
+          To work with forms in Angular Application we need to import `FormsModule` in AppModule class-->
+<div class="form">
+  <h2 id="registration">Registration Form</h2>
+  <!--Angular provides the inbuilt `(ngSubmit)` event -->
+    <!--<form (ngSubmit)="onSubmit(formRef)" #formRef>-->
+    <!--<form (ngSubmit)="onSubmit(formRef)" #formRef="ngForm">-->
+
+    <form (ngSubmit)="onSubmit()" #formRef="ngForm"> 
+      <!--CONCEPT : FormGroup in Template Driven Form
+    we have group the elements which are added as FormControl object in NgFrom object of </form>
+            and then add `ngModelGroup` directive on that container which is assigned with userdefined name to it.
+    With this, it doesnt require to  validate each FormControl Object -->
+
+    <!--Here `ngModelGroup` refers to FormGroup object `personaldetails` which is property 
+                                                      in 
+                            `controls` object which is property in `NgForm` object of <form>.
+  so, we are assigning it to #fromgroupRef hence we can access properties of FormGroup object `personaldetails` properties  -->
+      <div ngModelGroup="personaldetails" #formgroupRef="ngModelGroup">
+        <div class="form-group">
+          <label for="fname">First Name</label>          
+<!--Here this `ngModel` tell Angular its associated <input> `name` property is FormControl Object of `<form>` -->
+<!--Here `ngModel` directive add associated <input> `name="firstname"` property value 
+                  as `FormControl` object to  `controls` property in `ngForm` Object of <form> template-->
+
+          <!--<input type="text" id="fname" name="firstname" value="firstname" placeholder="Your name.." ngModel >-->  
+
+<!--CONCEPT: Data validation in `Template Driven Form -->
+
+          <!--<input type="text" id="fname" name="firstname" value="firstname" placeholder="Your name.." ngModel required >-->
+    
+    <!-- To this localreference variable `#fname` we assign properties of the controls object i.e., `firstname`-->
+    <!--Here we are using tWo way binding on `ngModel` directive-->   
+          
+          <input type="text" id="fname" name="firstname" value="firstname" placeholder="Your name.." 
+                                        [(ngModel)]="firstName" required #fname="ngModel">
+          
+          <small *ngIf="fname.invalid && fname.touched">First name is a required field to be filled </small>
+          <!--CONCEPT: custom validation error messages-->
+          <span *ngIf="firstName">You Entered: {{ firstName }}</span>  <!-- undefined returns false-->
+        </div>
+        <div class="form-group">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lastname" value="lastname" placeholder="Your last name.."
+                                      [(ngModel)]="lastName" required>
+          <span *ngIf="lastName">You Entered: {{ lastName }}</span>                         
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <!--To <form> element ngForm object `control name` property i.e., `email`, 
+                                its input field data will be validated for a valid email address 
+            If user donot provide valid email id then `valid` property set to `false`     -->
+          <input type="text" id="email" name="email" value="email" placeholder="Your email.." ngModel required email>
+        </div>  
+        <small *ngIf="formgroupRef.invalid && formgroupRef.touched">Required fileds doest have been neither filled or valid</small>  
+        <!--CONCEPT : setValue() and patchValue() on FormGroup Object in Template Driven Form -->
+        <button (click)="setDefaultValues()">Set Default Values</button>
+
+      </div>
+    
+    <label for="country">Country</label>
+    <!--Here `ngModel` directive add its associated  <select> `name="country"` property value 
+                  as `FormControl` object to `controls` property in `ngForm` Object of <form> template-->
+
+    <!--<select id="country" name="country" value="country" ngModel-->
+
+      <!--Here we are dinding `Component property `defaultCountry` to `ngModel`-->
+    <select id="country" name="country" value="country" [ngModel]="defaultCountry">
+      <option value="India">India</option>
+      <option value="USA">USA</option>
+      <option value="UK">UK</option>
+      <option value="Australia">Australia</option>
+    </select>
+<!--CONCEPT : Working with radio button in Template Driven Form.-->
+    <div class="radio-button">
+      <label for="gender">Gender:</label>
+      <span *ngFor="let gen of gender">
+        <input type="radio" id="{{gen.id}}" name="gender" value="{{gen.value}}" [ngModel]="defaultGender">
+        <label for="male">{{gen.value}}</label>
+      </span>
+    
+    <!--
+      <input type="radio" id="female" name="gender" value="female" ngModel>
+    <label for="female">Female</label>
+    <input type="radio" id="other" name="gender" value="other" ngModel checked>
+    <label for="other">Other</label>
+    -->    
+    </div>
+    <br>
+
+  <label>Hobbies <i>(Optional):</i></label>
+  <div class="form-inline">
+    <label><input type="checkbox" name="hobbies" value="sports" ngModel>Sports</label>
+    <label><input type="checkbox" name="hobbies" value="movies" ngModel>Movies</label>
+    <label><input type="checkbox" name="hobbies" value="music" ngModel>Music</label>
+  </div>
+  <!--When we click on `submit` in UI an `ngSubmit` event will be raised-->
+  <!--Using HTML attribute `diabled` which is assigned with <form> element ngForm object's `valid` property 
+        then  if its `valid` property is true then `submit` will be enabled otherwise disabled -->
+
+  <!--<input type="submit" value="submit" id="btn" [disabled]="!formRef.valid">-->
+
+  <input type="submit" value="submit" id="btn">
+  </form>
+</div>
+
+<div class="form-data">
+  <h3>Form Data</h3>
+  <!--Bcoz of [(ngModel)]="firstName" 2-way bata binding on <input> the values will be displayed 
+                  as soon as we enter in textfields of `firstname` and lastname'  form controls-->
+  <p>FirstName: <b>{{firstName}}</b></p> 
+  <p>LastName: <b>{{lastName}}</b></p>
+  <p>Email: <b>{{email}}</b></p>
+  <p>Country: <b>{{country}}</b></p>
+  <p>Gender: <b>{{gen}}</b></p>
+</div>
+<!--`ngForm` is a built-in directive in Angular.
+        It is used to create a reference to the form element and
+        provides additional functionality and properties for working with forms in Angular.-->
+
+<!--The `ngModel` directive plays a role in form interactions as well.
+          It helps track the input field's state (touched, dirty, valid, etc.) and 
+          updates the form's validity based on the input's value and any defined validation rules.-->
+
+<!--To access DOM object of <form> template,
+        we define local-reference varibale `formRef` to <form> template
+          and passed that reference variable as parameter to the `ngSubmit` event listener method `onSubmit()`
+
+    inorder to make DOM object of <form> template as a `form` Object we need to assign string called `ngForm`  
+      Hence `#formRef="ngForm"` - It creates a reference to the form element, 
+                        allowing us to access properties and methods associated with the form.
+
+  `(ngSubmit)="onSubmit(formRef)"` -  When the form is submitted, 
+             the `onSubmit()` method is called, passing the reference to the form `formRef` as an argument.-->
+
+<!--REMEMBER THAT : Based on Adding `ngModel`, `ngForm`, `ngModelGroup" directive and HTML validity attributes 
+  Bydefault Angular adds CSS class like `class="ng-untouched ng-pristine ng-invalid"` to associated element in DOM
+        However based on user actions on its input fields, its default CSS calss changes to
+                                `class="ng-touched ng-dirty ng-valid"` 
+  We can also define CSS styles to these `ng-touched`, `ng-dirty`, `ng-valid` CSS classes 
+                                                              in associated Component class .css file  -->
+
+<!--HTML attribute `required` specifies its associated <input> field shouldnt not be empty in UI,
+         If we donot fill any of these input field and enter `submit` then
+                <form> element ngForm object & its `control name` property i.e., `firstname` 
+                            has `valid` property which will be set to `false` & `invalid` property set to `true`-->

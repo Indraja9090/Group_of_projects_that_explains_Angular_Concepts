@@ -1,0 +1,44 @@
+<!-- CONCEPT: Structural Directives - Changes the View of webpage by adding/removing HTML elements from webpages.
+            1. *ngFor - Manipulates the DOM by adding/removing elements from the DOM
+                        Used to repeat a portion of HTML template on itterable list.
+                        ` * ` tells angular that we are using a structural directive -->
+
+<!-- 
+<div *ngFor="let item of [1,2,3,4,5]">
+<p>Item : {{ item }}</p>
+</div>     
+-->
+
+<div *ngFor="let p of products; let i = index;">
+    <!-- CONCEPT : Attribute Property
+       Used as an attribute on a existing webpage element to change its look & behaviour 
+       1. ngStyle - Used to set a CSS style dynamically for an HTML element based on given typescript expression-->
+    
+       <!-- Ternary operator ------ condition ? expression1 : expression2
+                var age = 20;
+                var message = (age >= 18) ? "You are an adult" : "You are a minor";  -->
+    <div class="products-container" [ngStyle]="{backgroundColor: p.available === 'Available' ? '#D5F5E3' : '#FADBD8'}">
+        <span>{{ i }}</span>
+        <div class="image-container">            
+            <img [src]="p.image" alt="Home Appliance and Accesseries" style="max-height: 55px; max-width: 55px">
+        </div>
+        <div>
+            <div class="name-container"><h6>{{p.name}}</h6></div>
+            <div class="detail-container">
+                <div class="details" [ngStyle]="{color: p.available === 'Available' ? 'Green' : 'Red'}">{{p.available}}</div>
+                <div class="details"><b>Price:Rs.</b>{{p.price}}</div>
+                <div class="details"><b>Color:</b>{{p.color}}</div>
+            </div>
+        </div>
+        <div class="options">
+            <button class="btn btn-success">Show Details</button>
+            <!--CONCEPT : Structural Directive
+                        Used to add/remove elemnet from a webpage based on a given Condition.-->
+            <button class="btn btn-warning" *ngIf="p.available === 'Available'; else notifyme">Buy Now</button>
+            <ng-template #notifyme>
+                <button class="btn btn-danger">Notify Me</button>
+            </ng-template>
+        </div>
+    </div>
+    <hr style="color: black;">
+</div>

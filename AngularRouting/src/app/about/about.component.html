@@ -1,0 +1,41 @@
+<div>
+    <h1 >About Works!</h1>
+    <!-- It represents RELATIVE ROUTE PATH as we donot place `/` before path `home` to `routerLink`
+            which means `/home` will be appended to current URL path say
+                        http://localhost:4200/about  -- current URL
+                        http://localhost:4200/about/home     -->                
+    <A routerLink="home">GoToHomePage</A>
+    <P>`routerLink="home"` will be appended to current URL path</P>
+
+    <!-- It represents ABSOLUTE ROUTE PATH as we place `/` before path `home` to `routerLink`
+            which means `/home` will be appended to ROOT URL path say
+                        http://localhost:4200  -- OUR APP ROOT URL
+                        http://localhost:4200/home     -->
+    <A routerLink="/home">GoToHomePage</A>
+    <P>`routerLink="/home"` will be appended to ROOT URL</P>
+
+    <!--This denote RELATIVE ROUTE PATH 
+                which means `/home` will be appended to current URL path-->
+    <A routerLink="./home">GoToHomePage</A>
+    <P>`routerLink="./home"` will be appended to current URL path</P>
+
+    <!--`/home` will be appended to one level up i.e., to the parent path of the current URL path-->
+    <A routerLink="../home">GoToHomePage</A>
+    <P>`routerLink="../home"` will be appended to one level up i.e., to the parent path of the current URL path</P>
+
+    <!--`/home` will be appended to two level up i.e., to the parent path of the current URL path
+                            say current URL path http://localhost:4200/Courses/frontend/javascript
+                                                http://localhost:4200/Courses/home-->
+    <A routerLink="../../home">GoToHomePage</A>
+    <P>`routerLink="../home"` will be appended to two level up i.e., to the grand-parent path of the current URL path</P>
+
+    <hr style="margin: 0px 300px;"><br>
+
+    <!--CONCEPT : How to navigate between the URL Routes programmetically-->
+    <!--As we havent user hyperlink attribute to <a> its content doesnt display with link -->
+    <A (click)="navigateToHome()" >GoToHomePage</A><br><br>
+    <button (click)="navigateToHome()" >GoToHomePage</button>
+    <P>Navigates to `Home` page programmetically</P><br>
+</div>
+
+

@@ -1,0 +1,23 @@
+<!-- <app-demo></app-demo> -->
+
+<!-- CONCEPT: Using Template/Local-Reference-Variable on a component -->
+
+<!-- Creating a Template-Reference-Vauriable to custom-component-selector-element
+     Hence this reference-variable `#customerlistRef` points to the `CustomerListComponent` class-->
+
+<app-customer-list #customerlistRef></app-customer-list> 
+  <p>You have selected <q>{{ customerlistRef.selectedCustomer?.name }}</q></p>
+     
+<!-- REMEMBER : 
+        1. Initially when this App will be loaded the CustomerListComponent property `selectedCustomer` be `null`,
+                                  we didnt assign any value to it.
+    
+        2. And At `customer-list` HTML template code,
+              we assigned  object of `customers` array to CustomerListComponent property `selectedCustomer`
+              BUT, If we try to access the value of `name` property of `customers` array object On that `null` would throw an error.
+
+        3. Hence By using the `?` nullisqalizing operator,
+            if the `selectedCustomer` object is null or undefined,
+            the expression will gracefully evaluate to undefined instead of causing an error.-->
+     
+     

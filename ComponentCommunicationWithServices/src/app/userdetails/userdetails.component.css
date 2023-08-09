@@ -1,0 +1,14 @@
+.container{
+    margin: 40px 0px;
+    background-color: #dedede;
+    padding: 20px 20px;
+    display: flex;
+}
+
+.user-details{
+    padding: 20px 20px;
+}
+
+img{
+    padding: 40px 0px;
+}

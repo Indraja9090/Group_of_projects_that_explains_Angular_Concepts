@@ -1,0 +1,27 @@
+<table>
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Select</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor=" let customer of customers">
+            <td>{{ customer.customerNo }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.city }}</td>
+            <td>{{ customer.country }}</td>
+    <!-- This `Select` <button> `(click)` event Assign 
+                    component class property `selectedCustomer` 
+                        with
+                    object of `customers` array -->
+    <!-- Note that component class property `selectedCustomer` will be `null` as we not assigned any value to it -->
+            <td><button style="margin: 1px 1px;"(click)="selectedCustomer = customer">Select</button></td>
+         </tr>
+    </tbody>
+</table>

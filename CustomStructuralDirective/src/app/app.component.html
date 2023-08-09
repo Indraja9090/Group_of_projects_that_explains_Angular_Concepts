@@ -1,0 +1,90 @@
+<!-- CONCEPT : Creating Custom Structural Directive :
+			Lets see how does Angular react when it finds asterisk before a custom directive  -->
+
+<button class="btn btn-notice" (click)="displayNotice()">Show Notice</button>
+
+<!--<div class="info-container notice" *appNgif="isDisplay">-->
+      
+  <!--Here we SHOULD bind `isDisplay` to `displayView` as it require `isDisplay` value most
+            as its parameter at its associated Directive class inorder to perform Application logic-->
+  
+  <!--<div class="info-container notice" *displayView="isDisplay">-->
+  
+  <!--However we get an error saying - cant bind to `displayView` since it isnt a known property of `div`,
+          Bcoz Angular by default look for `displayView` with `div` Attribute and,willnot look for `displayView` 
+              at its associated Directive class as we didnt not mention directive selector value on host element `div`.
+    Hence we need to tell Angular to look for `displayView` at its associated Directive class, for this
+                        - we MUST need to mention directive selector value on host element `div` .
+  
+      <div class="info-container notice" appNgif *displayView="isDisplay">
+      
+POINT TOBE NOTED : This WOULD NOT WORK with `custom structural directive` as it does work with `custom attribute directive 
+        
+           Hence the only way to RECTIFY ABOVE TYPE OF ERROR can be,
+          - Either by giving alias name to `displayView` with name directive selector value - 
+            IN THIS CASE - We MUST USE THIS ALIAS NAME in place of `displayView` at host element while binding.
+          - or We can replace the name of `displayView` with directive selector value.-->
+<div class="info-container notice" *appNgif="isDisplay">
+  <h3>This is an important notice!</h3>
+  <p>This is notice issues for all website users</p>
+</div>
+<p *appNgif="10 > 5">
+  Example checking whether custom structural directive rendering the host element on conditionally similar to *ngIf 
+</p> 
+      
+<!-- REMEMBER! - Angular Built-in Structural Directives :
+        *ngIf & *ngFor - where `Asterisk` tell Angular `ngIf & ngFor` are structural directives.
+      Structural Directives manipulates the DOM by adding/removing element to/from the DOM on which we use it-->
+<!--EXAMPLE-1 : Let see How does Angular EXPANDS Built-in `*ngIf` 
+
+<button class="btn btn-notice" (click)="displayNotice()">Show Notice</button>
+<div class="info-container notice" *ngIf="isDisplay">
+  <h3>This is an important notice!</h3>
+  <p>This is notice issues for all website users</p>
+<div>
+                            |
+          <ng-template [ngIf]='isDisplay"> 
+            <div class="info-container notice" >
+              <h3>This is an important notice!</h3>
+              <p>This is notice issues for all website users</p>
+            <div>
+          </ng-template>
+
+When Angular encounters the `*` before `ngIf`, it automatically transforms it into a template syntax called "template expansion."
+      which means BEHIND SCENES what Angular does is,
+                  - it creates a new view template by wrapping 
+                  the view template of that <html element> on which we have use `ngIf` under <ng-template>.
+                  - then angular will move this `[ngIf]` along with its conditional binding to <ng-template>. 
+  By this we can understand that Angular treats `structural directive` say `ngIf` similar to `Attribute directive`
+
+  NOTE: We knew that any directive or property must be wrapped in `[]` to be binded to any value/Typescript expression.
+    Hence Angular wraps `ngIf` in [] 
+    1.The `<ng-template>` is a container that holds the content to be conditionally rendered.
+    2.It is controlled by the `ngIf` directive, which evaluates the expression isDisplay and,
+      determines whether to render the content within the template 
+-->
+<!--EXAMPLE-2 : When `*ngIf` binded along with `else` part whose content definded in <ng-template having #reference-variable>
+    Then BEHIND SCENES - How does Angular EXPANDS `*ngIf` in this scinario
+
+<div class="info-container notice" *ngIf="isDisplay; else myVar">
+  <h3>This is an important notice!</h3>
+  <p>This is notice issues for all website users</p>
+<div>
+<ng-template #myVar>
+  <p>Am the else part Content however will be replaced with original content of `ngIf` host element when above button got clicked</p>
+<ng-template>
+
+ How does Angular EXPANDS `*ngIf` in above Example :
+  Angular uses a directive named `[ngIfElse]` assigned with referencevariable of <element> whose content to be rendered 
+
+<ng-template [ngIf]='isDisplay" [ngIfElse]='myVar'>  
+<div class="info-container notice" >
+  <h3>This is an important notice!</h3>
+  <p>This is notice issues for all website users</p>
+<div>
+</ng-template>
+<ng-template #myVar>
+  <p>Am the else part Content however will be replaced with original content of `ngIf` host element when above button got clicked</p>
+<ng-template>
+-->
+

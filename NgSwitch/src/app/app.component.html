@@ -1,0 +1,16 @@
+<!--Here `*` is placed only before `ngSwitchCase` and `ngSwitchDefault` BUT NOT BEFORE `ngSwitch` because
+		`ngSwitchCase` and `ngSwitchDefault` are the one's who manipulationg DOM -->
+<!--Depending on the value of `occupation`, the corresponding content is rendered.-->
+<div class="container" [ngSwicth]="occupation">
+<!-- If `occupation` is `'teacher'`, the output will be "This paragraph will be displayed when occupation is Teacher."-->
+ <p *ngSwitchCase="'teacher'">This paragraph will be displayed when occupation is Teacher.</p>
+ <p *ngSwitchCase="'designer'">This paragraph will be displayed when occupation is Designer.</p>
+ <p *ngSwitchCase="'lawyer'">This paragraph will be displayed when occupation is Lawyer.</p>
+<!--For any other value of `occupation`, the output will be below <p> content as defined in the ngSwitchDefault block.-->
+ <p *ngSwitchDeafult>This paragraph id default and will be displayed when no case matches with switch expression.</p>
+</div>
+
+<!--NOTE THAT : The values used in `ngSwitchCase` can be variables, expressions, or string literals. 
+		It's important to ensure that the case values match the types of the `ngSwitch` expression for proper evaluation.-->
+
+

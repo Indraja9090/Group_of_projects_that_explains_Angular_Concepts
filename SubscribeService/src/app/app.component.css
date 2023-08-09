@@ -1,0 +1,6 @@
+.container{
+    margin: 100px 400px;
+    padding: 30px 30px;
+    display: flex;
+    background-color: azure;
+}

@@ -1,0 +1,103 @@
+<!--CONCEPT: Sending `POST` request to the server to save the user form submission data in BD we created in google's `Firebase`
+        Firebase is an app development platform that 
+                1. helps you build and grow apps and games users love .
+                2.provides complete dackend solutions which also offers a database-->
+<!--REMEMBER : Whatever the type of HTTP request we made
+        we MUST import `HttpClientModule` from `@angular/common/http` in AppModule class 
+        We also need to inject an instance of `HttpClient` module in Component where we need to use http request methods-->
+<div class="mian-area">
+  <div class="content-area">
+    <div class="header">
+      <h1>Manage Products</h1>
+      <hr>
+      <div class="container">
+        <!--Add product form-->
+        <div class="form-area">
+          <h3>Create Product</h3>
+          <!--Template driven form-->
+          <!--`#productsForm`is known as a template reference variable. 
+                                                  It creates a reference to the form itself-->
+          <!--The value "ngForm" is the directive applied to the form, 
+                                indicating that it should be associated with the `ngForm` directive.-->  
+          <!--`ngForm` object is going to have property named `value` which is a object type
+                  hence `value` object has all the form controls as its properties 
+                        those form control refered with their `name` property value i.e., prodname, descrip, price...-->                                      
+          <form (ngSubmit)="onProductCreate(productsForm.value)" #productsForm="ngForm">
+            <label>Product Name</label>
+            <input type="text" name="prodname" ngModel>
+
+            <label>Product Description</label>
+            <input type="text" name="descrip" ngModel>
+
+            <label>Product price</label>
+            <input type="text" name="price" ngModel>
+
+            <!--<input type="submit" value="Add Product" >-->
+            <input type="submit" value="{{editMode ? 'Update Product' : 'Add Product'}}" >
+          </form>
+        </div>
+
+        <!--Display product area-->
+        <div class="product-display-area">
+          <h3>All Products</h3>
+          <table id="products">
+            <tr>
+              <th>No.</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>price</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <!--Below <td> contnet should be display when both
+                    `allProducts` array is < 1 and when we are not fetching data from DB-->
+            <tr *ngIf="allProducts.length < 1 && !isFetching">
+              <td colspan="5">No Products Available in BD</td>
+            </tr>
+            <!--<tr *ngIf="errorMessage != null">   also can be write as-->
+            <tr *ngIf="errorMessage">
+              <td colspan="5">{{ errorMessage }}</td>
+            </tr>
+            <!--As `null` value is a falsy value, 
+                  hence when we use variable with `null` in condition its `null` value typecast to `fasle`-->
+
+            <!--<tr *ngIf="isFetching && errorMessage === null">-->
+              <tr *ngIf="isFetching && !errorMessage">  
+              <td colspan="5">Loading..</td>
+            </tr>
+            <tr *ngFor="let prod of allProducts; index as i">
+              <td>{{i + 1}}</td>
+              <td>{{prod.prodname}}</td>
+              <td>{{prod.descrip}}</td>
+              <td>${{prod.price}}</td>
+              <td><button style="background-color: orangered; color: white; 
+                                  padding: 5px 8px; border: none;"
+                          (click)="onDeleteProduct(prod.id)">Delete</button></td>
+              <td><button style="background-color: rgb(84, 84, 212); color: white; 
+                            padding: 5px 8px; border: none;"
+                    (click)="onEditClicked(prod.id)">Edit</button></td>
+            </tr>
+          </table>
+          <br>
+          <hr>
+          <!--Newly added product will be fetched from DB using `get()` method on HttpClient-->
+          <button style="background-color: rgba(0, 162, 255, 0.801); width: 100%; padding: 5px; margin-bottom: 10px;" 
+                 (click)="onProductsFetch()" >Fetch Product</button>
+          <button style="background-color: orange; width: 100%; padding: 5px;"
+                  (click)="onDeleteAllProducts()" >Clear All Products</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--In Angular, `ngForm` is a directive that is used to create and handle HTML forms. 
+    It allows you to easily track the state and validation of form controls within your application. 
+    The `ngForm` directive is typically used in conjunction with the `ngSubmit` event to handle form submissions.
+    The `ngForm` directive provides a range of properties and methods 
+                                        that we can use to interact with and manipulate the form and its controls.-->
+
+<!--By using `ngForm` on the <form> element, Angular automatically creates an instance of the `FormGroup` class, 
+                                                                              which represents the form as a whole. 
+    It also tracks the state and validity of the form controls within it. 
+    The `FormGroup` instance is associated with the template reference variable `productsForm`, 
+                                                      allowing you to access it in the component code.-->

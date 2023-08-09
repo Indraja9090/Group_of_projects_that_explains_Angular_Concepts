@@ -1,0 +1,35 @@
+<!-- Creating a Template-Reference-Vauriable by using pound sign `#` followed by variable-name.
+     Hence this reference-variable `#myVariable` will store the reference to this <input> element in the DOM.-->
+
+<!-- Ingeneral when this HTML template rendered in DOM an object will be created to this <input> element,
+     Hence this reference-variable `#myVariable` points to the <input>'s object in the DOM.
+     Which means this `<input type="text" #myVariable>` element will have a reference to its object in the DOM -->
+
+<!--  Instead of using Two-way Data-Binding directive i.e., [(ngModel)]
+      Let use this reference-variable `#myVariable` to pass data between UI and Component class property.-->
+
+<!-- REMEMBER: <input> has a `value` property which store the data entered in UI textbox-->
+
+<!-- NOTE that, Intially when this template loads in webpage the UI <input> textbox will be empty.
+     That's why in UI we dont see any data displayed dynamically at <p>  .             -->
+
+<!-- ALSO NOTE THAT : Even we type in UI <input> textbox, we dont see any data dynamically displayed at <p>,
+     i.e., Because here <input> element is not aware of change happened in UI textbox.
+     Inorder to make it aware we need to raise an `event` on user actions to UI textbox -->
+
+<!-- Angular will run change-detection everytime this `(keyup)` event will happen.
+     And everytime the `change-detection` will be run Angular will updates the UI view.-->
+
+<!-- `change-detection` is the process by which Angular determines if any changes have occurred in the component's data model.
+      And if does, updates the corresponding view to reflect those changes.
+
+     `change-detection` is an essential mechanism that ensures the synchronization between the component's data and its associated view.-->
+
+<input type="text" #myVariable (keyup)="0">
+<!-- We pass this local reference `#myVariable` which refers to its DOM object 
+	                to 
+       its associated component's class as `argument` inorder to access 
+		       above <input> properties i.e., `value` property in DOM -->
+<button (click)="sayHello(myVariable)">Say Hello</button>
+<p>{{ myVariable.value }} </p>
+               

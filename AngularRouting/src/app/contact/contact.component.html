@@ -1,0 +1,29 @@
+<h1 style="text-align: center;">Contact Us!</h1>
+<div class="form-container">
+    <form>
+        <div class="form-group">
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="firstName" placeholder="your name.." [(ngModel)]="firstName">
+        </div>
+        <div class="form-group">
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lastName" placeholder="your last name.." [(ngModel)]="lastName">
+        </div>
+        <div class="form-group">
+            <label for="country" [(ngModel)]="country">Country:</label>
+            <select id="country" name="country">
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+            <option value="Australia">Australia</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            <textarea id="subject" name="subject" placeholder="Write something.." [(ngModel)]="subject"></textarea>
+        </div>
+        <div class="form-group">
+            <input class="submit-button" type="submit" value="submit">
+        </div>
+    </form>
+</div>

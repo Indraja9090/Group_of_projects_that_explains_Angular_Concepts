@@ -1,0 +1,135 @@
+<div class="form CSS4FormEvent" [ngClass]="formStatus">
+  <h2 id="registration">Registration Form</h2>
+  <!--CONCEPT : Reactive Form in Angular-->
+  <!--Here we are property binding our defined form `reactiveForm` with directive `formGroup`-->
+  <!-- the <form> element is bound to a FormGroup named `reactiveForm`. 
+          This is achieved using the [formGroup] directive provided by Angular's Reactive Forms module.-->
+    <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()"> 
+      <!--CONCEPT : FormGroup as a property in `FormGroup` object say `reactiveForm`
+        Grouping FormControl's in a FormGroup object takes 2 steps
+              1st: create a container element and place the form control elements that we need to group
+              2nd: we need to define & pass FormGroup object say `personaldetails` to `reactiveForm` FormGroup object and
+                      to `personaldetails` we need to  pass Formcontrol objects which are needed to be a group  
+                                                                          as its properties -->
+        <div formGroupName="personaldetails">      
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <!--Now we need to assign our defined `formControl` property say `firstname` 
+                                    to directive `formControlName`-->  
+            <!--CONCEPT: How to add custom validation error message for a form control field, uisng either 
+                                1.valid, touched... properties or
+                                2.error code   -->  
+            <input type="text" id="fname" placeholder="Your name.." formControlName="firstname"> 
+            <!--In this case, the error code being checked is 'required'. 
+              By accessing errors['required'], 
+                        the code is looking for the error message or information associated with the 'required' error code.
+              The reason for using square brackets ([]) instead of curly braces ({}) is that the error code is provided as a string value.
+              In JavaScript, when accessing an object property using a string key, you need to use square brackets.--> 
+            <!--REMEMBER : 1. If control field value doent violate the applied validators then `errors` obj property doesnt contain any errorcode,
+                                  then `errors` obj property will ne `null` 
+              So, We used `?` after `errors` to check if the `errors` object is defined and not null. 
+              If the errors object is undefined or null, the expression immediately evaluates to undefined,
+                                                             and no further property access (['required']) is attempted.
+              This is useful to avoid "TypeError: Cannot read property '...' of undefined" errors that can occur 
+                                              if you try to access properties or methods of an undefined or null value.
+              2.If control field value violate the applied validators then `errors` obj property contains error code will set to `true`
+                            in this case we say -----   `errors` -> { required: true}                                                -->
+            <small *ngIf="reactiveForm.get('personaldetails.firstname').errors?.['required']">First name is a required field.</small> 
+            <small *ngIf="reactiveForm.get('personaldetails.firstname').errors?.['noSpaceAllowed']">First name can not containe a space.</small>      
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" placeholder="Your last name.." formControlName="lastname">                      
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" id="email" placeholder="Your email.." formControlName="email">
+            <!--making the <span> content should be displayed when user entered emial is not valid
+                                  For that we need to access `email` form control field 
+            The `reactiveForm` property of type FormGroup has `FormControl` objects
+                hence we call `get()` method on FormGroup object i.e., `reactiveForm` to access required FormControl object
+                                                                                    and its properties -->
+            <!--Commented as `email` FormControl object is now a party of `personaldetials` FromControl object.
+              <span style="color: red;" *ngIf="!reactiveForm.get('email').valid">The Email Id you entered is not a valid email</span>-->
+            <span style="color: red;" *ngIf="!reactiveForm.get('personaldetails.email').valid && reactiveForm.get('personaldetails.email').touched">
+                      The Email Id you entered is not a valid email
+            </span>
+          </div>
+        </div>
+        <hr>
+        <!--CONCEPT : FormArray as a property in `FormGroup` object say `reactiveForm`-->
+        <!--`<ng-container>` is a structural directive in Angular 
+                  that doesn't create any additional elements in the DOM. 
+              It allows you to group a set of elements together without introducing unnecessary wrapper elements.-->
+        <!--Here we are looping over FormArray Object i.e., `skills` to display its all element's form control fileds
+                  NOTE that the `FormArray` object has `controls` property of type `AbstractControl[]` array,
+                                      hence it has the array that we passed to `skills` FormArray object -->
+        <div formArrayName="skills" >
+          <!--here index `i` is the index value of Array elements in `FormArray` object -->
+          <ng-container *ngFor="let skill of reactiveForm.get('skills')['controls']; index as i">
+            <!--AS FAR WE DO NOT USE `formControlName` directive on form control elements,
+                             however those elements WILL NOT BE BINDED to angular reactive form 
+              Obviously default angular form CSS classes like 
+                          `class="ng-untouched ng-pristine ng-valid"` WILL NOT BE ADDED to those form control elements in DOM
+              NOTE that `formControlName` directive will be assigned with value WHICH IS DYNAMICALLY GENERATED 
+                                                                when each element of `FormArray` has been displayed -->
+            <input type="text" placeholder="add skill" formControlName="{{i}}">
+          </ng-container>
+          <!--CONCEPT : We Can dynamically add as many as form control elements to UI using `FormArray`-->
+          <button (click)="addSkills()">+ Add Skills</button>
+        </div>
+
+        <label for="country">Country</label>
+        <select id="country" formControlName="country">
+          <option value="India">India</option>
+          <option value="USA">USA</option>
+          <option value="UK">UK</option>
+          <option value="Australia">Australia</option>
+        </select>
+
+        <div class="radio-button">
+          <label for="gender">Gender:</label>
+
+          <input type="radio" id="male" value="male" formControlName="gender">
+          <label for="male">Male</label>
+          <input type="radio" id="female" value="female" formControlName="gender">
+          <label for="female">Male</label>
+          <input type="radio" id="other" value="other" formControlName="gender">
+          <label for="other">Other</label>              
+        </div>
+        <br>
+
+      <label>Hobbies <i>(Optional):</i></label>
+      <div class="form-inline">
+        <label><input type="checkbox" value="sports" ngModel formControlName="hobbies" checked>Sports</label>
+        <label><input type="checkbox" value="movies" ngModel formControlName="hobbies" >Movies</label>
+        <label><input type="checkbox" value="music" ngModel formControlName="hobbies" >Music</label>
+      </div>
+      <input type="submit" value="submit" id="btn">
+    </form>
+</div>
+<!--`[formGroup]` is an attribute directive that binds 
+                  the `reactiveForm` property of the component class to the <form> element.
+It establishes a connection between the form control hierarchy defined in the component class
+                                                                   and the form element in the template.-->
+<!--By binding the `reactiveForm` property to the <form> element using [formGroup], 
+      Angular establishes a connection between the form element and the reactive form model. 
+This allows Angular to track the form's state, perform validation, and handle form submission-->
+
+<!--Inside the <form> element, you can define various form controls, such as <input>, <select>, and <textarea>, 
+            and bind them to corresponding `FormControl` instances within the `reactiveForm` object.
+    For example, we can bind an input field to a form control using the `formControlName` directive
+                <input type="text" formControlName="firstname">
+  Here, the `formControlName` directive binds the input field to the `firstname` form control within the `reactiveForm`.-->
+
+<!--CONCEPT: Custom Validator and Error code
+        Every validator on FormControl object has an `error object property` 
+                            which contains error code for applied validators 
+        When a validator is applied to a form control, 
+            and if the control's value violates the validation rule, an error code is added to the errors object.
+
+  EXAMPLE `FormGroup` obj -> `controls` obj property -> say `personaldetails` FormGroup obj property ->
+              `controls` obj property -> say `email` FormControl obj property -> `errors` obj property -> 
+                                      can have error codes as key-value pairs as - `required: true`
+    HOWEVER REMEMBER: 
+        Error code is nothing but a text which is returned by a validator WHEN APPLIED VALIDATION FAILS ON FormControl field-->

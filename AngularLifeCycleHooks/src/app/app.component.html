@@ -1,0 +1,32 @@
+<!-- CONCEPT : Angular LifeCycle Hooks
+ 
+     Project Explanation : When user enters data in UI <input> textbox,
+				that data should reflect in other web element place -->
+
+<div class="container">
+  <!--Created a local-reference-var `#input` - which stroes its DOM reference--> 
+  <input type="text" #input>
+<!--Passed local-reference-var `#input` as an argument to `(click)` event method-->
+  <button (click)="onSubmit(input)">Submit</button>
+
+<!-- `[value]` is custom Attribute property becoause of it is 
+                              - defined and decorated with @ViewChild in demo.ts
+                              - wrapped in [] and Binded to AppComponent property "inputText" -->
+<!-- REMEMBER:  Angular will instantiate `Component` class
+              as many times Angular finds `Component's` selector --->
+
+<!-- ALWAYS REMEMBER : `constructor()` is not a Lifecycle Hook
+              it's just a javascript feature --> 
+  <app-demo [value]="inputText" *ngIf="destroy">
+    <!-- Below <h4> Content will be placed at <ng-content> tag in demo.html-->
+    <h4>This is DemoComponent selector's pro-jected content {{ inputText }}</h4>
+  </app-demo>
+  <!-- NOTE THAT : 
+      Below <app-demo> selectors are commented BECAUSE they are used thrice in this template to explain the CONCEPT that,
+                      Everytime the `Component` class get instantiated,
+                          then everytime their constructor() will also be called  -->   
+  <!--<app-demo [value]="inputText"></app-demo>
+  <app-demo [value]="inputText"></app-demo> -->
+  <br>
+  <button (click)="onDestroyComponent()">Destroy</button>
+</div>

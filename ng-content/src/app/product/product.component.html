@@ -1,0 +1,23 @@
+<!-- CONCEPT : <ng-content> element
+    1. we can pass the content inside component's selector element
+						        to
+					 appear at place <ng-content>.
+
+   2. Angular will only replace the last occurence of <ng-content> in HTML template 
+						            with
+			   actual content of Components selector element.
+
+    3.Hence remaining <ng-content> will be ignored.
+
+    4.We can use the html elements class attribute of Components selector element,
+		 to bind with <ng-content> to make it should replace
+					            with
+		that html element content of Components selector element.          -->
+
+<div class="card">
+    <ng-content select=".title"></ng-content>  
+    <p class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <!-- ONLY the last occured <ng-content> in a template will be replaced by content of <app-product> element -->     
+    <ng-content select=".btn-more"></ng-content>    
+</div>

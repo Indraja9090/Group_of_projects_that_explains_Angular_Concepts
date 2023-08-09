@@ -1,0 +1,97 @@
+<h1 style="text-align: center;">Moving filterling logic to Component class </h1>
+<p style="text-align: center;">Which is recommended by Angular</p>
+<div>
+  <app-filtering-logic-in-component></app-filtering-logic-in-component>
+</div>
+<h1 style="text-align: center;">Implementing 'pure or impure' pipes for filtering & Sorting Component template  </h1>
+<p style="text-align: center;">Which is not recommended by Angular</p>
+<div class="container">
+  <!--CONCEPT : Creating custom `filter` pipe -->
+  <div>
+    <input type="text" placeholder="Search by gender" [(ngModel)]="filterText"
+                     style="width: 450px; padding: 2px 2px; margin: 10px; height: 30px;">
+  </div> 
+  <!--IMPORTANT POINT TO NOTE : 
+          Think before while making custom pipe as `impure pipe`,because
+    impure pipes get executed for every change detection cycle even the source data doesnt change
+        which significantly impact the performance of Angular Application  -->
+  <!--Here we are implementing `mousemove` browser event occur for every change detection happens
+                which apparently leads impure pipe say `customfilterpipe` execution -->
+  <table id="student" (mousemove)="onMouseMove()">
+    <tr>
+      <th>Name</th>
+      <th>Course</th>
+      <th>Marks</th>
+      <th></th>
+      <th>Percentage</th>
+      <th>DOB</th>
+      <th>Gender</th>
+    </tr>
+    <!--CONCEPT : Custom pipes in Angular can be either `pure` or `impure`
+        However Angular community doesnt recommand to use `pure or impure` pipes 
+                          to filter and sort data     
+        Hence they recommand to use filtering and sorting logic in Component itself-->
+
+<!--SENARIO-2 & 3 : Pure change   
+    2. When the reference of input changes Angular consider it as pure change,
+                    hence ONLY THEN CUSTOM DEFINED pure pipe will be exectuted for every input reference changes.
+    3. When there is no change in input reference Angular consider it as impure change  
+                hence ONLY THEN CUSTOM DEFINED impure pipe will be exectuted for every change in same input reference.-->   
+      <!-- In AppComponent class 
+                  `addStudent() { this.students.push({ ... }) }` defines IMPURE CHANGE, because
+          We define `customfilterpipe` as a pure pipe, but it might not detect the change in the `students` array 
+                         because the array reference remains the same after modification. 
+          Pure pipes rely on the immutability of the input data to determine when to recalculate the output.-->
+
+      <!--In AppComponent class 
+              `addStudent() { let studentsArrayCopy = Object.assign([], this.students); ... }` defines PURE CHANGE-->
+    <tr *ngFor="let std of students | customfilterpipe : filterText"> 
+      <td>{{std.name}}</td>
+      <td>{{std.course}}</td>
+      <td>{{std.marks}}</td>
+      <!--<td>{{std.marks / totalMarks * 100 }}</td>-->     
+      <!--<td>{{std.marks / totalMarks | percent: '1.2-3' }}</td>-->
+
+      <!--CONCEPT : Pure change-->
+        <!--case-1: Here `custompercentagepipe` is applied on `std.marks / totalMarks` value
+                    hence the value will be transformed by multipling with 100.-->
+
+        <!--<td>{{std.marks / totalMarks | percent}}-->
+
+        <!--case-2: Now sending `totalMarks` value as 2nd argument to `trandform()` method in `PercentagePipe` class.
+                and sending `2` value as 3rd argument -->
+
+      <!--SENARIO-1: Pure change -->
+          <!--When there is change in primitive input value (string,boolean,number etc),
+                hence pure pipe will be performed for every change
+          Whenever the input value (say `std.marks`) gets changed dynamically in DOM its associated pipe will be executed-->
+      <td>{{std.marks | custompercentagepipe: totalMarks : 2 }}</td>
+      <td><input type="number" value="std.marks" [(ngModel)]="std.marks"></td>     
+
+      <!--`currency` pipe transform a number to a courrency string-->
+      <!--<td>{{std.marks / totalMarks | currency: 'INR' }}</td>-->
+
+      <!--REMEMBER `pipe` might take two parameters -->
+      <!--<td>{{std.marks / totalMarks | currency: 'INR' : '2nd built-in parametername'}}</td>-->      
+
+      <!--We Can use `date` pipe on `Date` object and
+         also we can pass built-in parameters to `date` pipe -->
+      <!--We can also chain multtipe pipes which will be applied in given order-->
+      <td>{{std.DOB | date: 'fullDate' | uppercase}}</td>
+            
+      <!--Here we use `uppercase pipe to formate `std.gender` value to uppercase -->
+      <!--<td>{{std.gender | uppercase }}</td>-->
+      <td>{{std.gender | lowercase | uppercase }}</td>
+    </tr>
+  </table>
+  <br><br>
+  <button (click)="addStudent()">Add Student</button>
+  <button (click)="changeGender()">Change Gender</button>
+</div>
+<!--Using `percent` pipe on expression which transforms a number to a percentage string
+          REMEMBER `percent` pipe multiplies number by 100  
+   `1.2-2` Here we are passing parameter that specifying 
+              In percent string value - mini integer digits before decimal we want is 1
+                                        mini and max integer digits after decimal point is 2 to 3-->
+
+

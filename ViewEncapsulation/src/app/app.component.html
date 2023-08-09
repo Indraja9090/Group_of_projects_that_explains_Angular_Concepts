@@ -1,0 +1,71 @@
+<!-- CONCEPT : View Encapsulation in Angular.
+  Example : CSS styles will only be applied to the associated html template in @Component class-->
+
+<div style="margin: 20px auto; width: 780px;">
+  <div class="app-component">
+    <h2>App Component</h2> 
+    <p>This is <b>app</b> Component.</p>   
+    <button>Button</button>
+  </div>
+  <!-- Due to `ViewEncapsulation.Emulated` of Angular's default Configuration,
+          CSS styles of `button` specified in app.css will not be applied to
+               `comp1.html` <button> and `comp2.html` <button>   -->
+
+   <!-- However by configuring AppComponent to `ViewEncapsulation.None`,
+        the specified CSS styles of `button` in app.css will be applied
+				                              to
+        child-component's i.e., `comp1` & `comp2` <button> as well --> 
+  <div class="component-container">
+    <app-comp1></app-comp1>	<!--also has <button> element -->
+    <app-comp2></app-comp2>	<!--also has <button> element -->
+  </div>
+</div>
+<!-- NOTE THAT : Ingeneral The specified CSS styles has global scope 
+                which means,
+                    CSS rules applies to entire HTML Document we cant apply rules to part of HTML Document
+      BUT, In the case of `Angular Apps` the components coexit with other components.
+          Hence its very important to ensure the CSS styles specified in one component doesnt overwrite
+				                                     the CSS rules in another component.
+      TO ACHIVE THIS, Angular uses View Encapculation which are of 3 types,
+                      1.ViewEncapculation.Emulated
+                      2.ViewEncapculation.None
+                      3.ViewEncapculation.ShadowDOM
+			        BUT REMEMBER, By default Angular uses `ViewEncapculation.Emulated`. -->
+<!--  
+  1. `ViewEncapsulation.Emulated` :
+      Due to `ViewEncapsulation.Emulated` of Angular's default Configuration,
+          When this app.html rendered in browser, Angular adds unique unique HTML attributes to,                                
+          "each CSS style object and also to each HTML elements" of a Component
+  
+	        which means, 
+            The specified CSS styles of `button` in app.css will be applied `ONLY to`					                
+            associated Component's template <button> i.e., in `app.html`,
+            However these CSS style will not be applied to
+            other child-Component's <button>(i.e., comp1.html & comp2.html) in parent-component template.
+  2.  `ViewEncapsulation.None` :
+        If we change Angular's default Configuration `ViewEncapsulation.Emulated`,
+						                                                          to
+				                                               `ViewEncapsulation.None` - given by Angular itself.	
+              THEN, the specified CSS styles of `button` in app.css will be applied
+                                    to all 
+              <button> elements specified in child-component as well
+
+	      Hence While rendering app.html,
+            Angular WILL NO LONGER REQUIRE to add unique attributes to html elements & its specified CSS properties.
+ -->
+<!--TO PRACTICALLY EXPLORE `ViewEncapsulation.Emulated` :
+
+                At `Element` section of webpage-Inspect window 
+		    we see, a new attribute will be added to both `html element` and its corresponding `CSS` style.
+                For example,If we change 
+				the added attribute of <h1> ---- let say <h1 _ngcontent-oni-c13>
+						                                              with
+				the added attribute of <h2> ----- let say <h2 _ngcontent-oni-c12>  
+		which means,
+			      <h1 _ngcontent-oni-c13> to <h1 _ngcontent-oni-c12>
+		Then, corresponding `_ngcontent-oni-c12` attribute CSS style will be applied
+                                        to
+          <h1> at UI as it's added attribute was changed to attribute `_ngcontent-oni-c12`       -->
+
+
+     

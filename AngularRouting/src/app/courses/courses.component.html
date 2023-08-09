@@ -1,0 +1,35 @@
+<!--CONCEPT : route parameter. 
+    How to pass a parameter with a route and how to retrive to use it in our Angular app
+
+    Route parameters are dynamic part of the route and it is essential in determining the route
+-->
+<h1 style="text-align: center;">Courses Works!</h1>
+<div class="course-container" >
+    <div class="course-card" *ngFor="let course of courses">
+        <div>
+            <img [src]="course.image" style="width: 250px; height: 140px;">
+        </div>
+        <div class="course-name"><h4>{{ course.name }}</h4></div>
+        <div class="course-description"><p>{{ course.description.slice(0,90) }}...</p></div>
+        <div class="details">
+            <div class="course-type" [ngStyle]="{color: course.type === 'Free' ? 'Green' : 'Red'}">{{ course.type }}</div>
+            <div class="course-price"><b>Price:</b>${{ course.price }}</div>
+        </div>
+        <div class="course-buttons">
+            <button class="btn btn-buy" style="background-color: tomato;">Buy Now</button>
+            <!--An instance of `CourseComponent` will be CREATED when we click on this `Show Details` button
+                when the `CourseComponent` is FULLY INITIALIZED then its `ngOnInit()` hook will be called ONLY ONCE-->
+            <!--CONCEPT : Child Routes-->
+            <button routerLink="/courses/course/{{course.id}}" 
+                    class="btn btn-show" style="background-color: rgb(77, 170, 123);">Show Details</button>
+
+            <!--CONCEPT : Child Routes 
+                For below routerLink="/course/{{course.id}} when append to active URL,
+                If configured empty route path='' is parent to its child route path `course/:id` then
+                    child route path associated Component class will be initialized-->
+            <!--<button routerLink="/course/{{course.id}}" 
+                    class="btn btn-show" style="background-color: rgb(77, 170, 123);">Show Details</button> -->      
+        </div>
+    </div>   
+</div>
+<router-outlet></router-outlet>

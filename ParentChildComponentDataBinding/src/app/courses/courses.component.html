@@ -1,0 +1,98 @@
+<!-- CONCEPT : Custom Property Binding 
+                   Passing data from `ParentComponent` to `ChildComponent` using `@Input()` decorator.
+                    We also call it custom property binding.-->
+<!-- Implementing the code to display associated courses 
+                            Based on `value` of selected <input> radio button in webpage,
+     If `value` is `All` - All courses should display at <app-courses> in webpage 
+     If `value` is `Free` - Free courses should display at <app-courses> in webpage 
+     If `value` is `Premium` - Premium courses should display at <app-courses> in webpage -->
+<div>
+    <app-search (searchTextChanged)="onSearchTextEntered($event)"></app-search>    
+    <!-- Here we have  [all]="getTotalCourses()" to [free]="getTotalFreeCourses()" as
+                   we can give alias name `total` to @Input() property `all` of FilterComponent,
+                                     and that alias name must use for binding.-->    
+    <app-filter [total]="getTotalCourses()"
+                [free]="getTotalFreeCourses()"
+                [premium]="getTotalPremiumCourses()"
+                (filterRadioButtonSelectionChanged)="onFilterRadioButtonChanged($event)"></app-filter>
+</div>
+<ng-container *ngFor="let course of courses">
+    <!--Below Commented condition applied to display 'all','free','premium' courses 
+                                            depending on user clicks on UI radio buttons-->
+    <!-- <div class="course-container"
+                    *ngIf="courseCountRadioButton === 'All' || courseCountRadioButton === course.type"> -->
+    <div class="course-container" 
+                    *ngIf="searchText === '' || course.name.toLowerCase().includes(searchText)"> 
+        <div class="course-card">
+            <div>
+                <img [src]="course.image" style="width: 250px; height: 140px;">
+            </div>
+            <div class="course-name"><h4>{{ course.name }}</h4></div>
+            <div class="course-description"><p>{{ course.description.slice(0,90) }}...</p></div>
+            <div class="details">
+                <div class="course-type" [ngStyle]="{color: course.type === 'Free' ? 'Green' : 'Red'}">{{ course.type }}</div>
+                <div class="course-price"><b>Price:</b>${{ course.price }}</div>
+            </div>
+            <div class="course-buttons">
+                <button class="btn btn-buy" style="background-color: tomato;">Buy Now</button>
+                <button class="btn btn-show" style="background-color: rgb(77, 170, 123);">Show Details</button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<!-- NOTE-1: we binded  child-component's(i.e., filterComponent) 
+                custom-event `(filterRadioButtonSelectionChanged)`  which emits `event-data` on its raise in webpage
+				                to 
+	            parent-component's(i.e., CoursesComponent) 
+                method `onFilterRadioButtonChanged()`.-->
+<!-- `$event` is a parameter required to store 
+            the `event-data` which has been emitted by custom-event `(filterRadioButtonSelectionChanged)` raise -->
+
+<!-- NOTE-2: Remember we cannot use two structural directives(*ngFor anf *ngIf)
+                             on the section of HTML Markup element.If do, it will through an error.
+     To avoid this error Angular provided `<ng-container>` - Used as a structural directive container, 
+					allowing you to apply structural directives such as ngIf, ngFor, or ngSwitch
+                                                                                 to a section of HTML markup.
+     <ng-container> is commonly used with structural directives to conditionally render or repeat 
+                                                                        elements based on certain conditions.-->
+<!-- NOTE-3: We bind SearchComponent's custom-event `(searchTextChanged)` 
+                        which emits `event-data` on its raise in webpage 
+                                     to
+                  CoursesComponent's method `onSearchTextEntered($event)`.
+
+     `$event` is the parameter which has the `event-data` 
+                        which has been emitted by custom-event `(searchTextChanged)` -->
+
+<!-- toLowerCase() : A JavaScript string method that converts a string to lowercase.
+
+     includes(substring) : A JavaScript string method that checks 
+                            if a given substring (in this case, searchText) exists within a string. 
+                            It returns `true` if the substring is found, otherwise returns `false`.
+                In the expression, it checks if the lowercase `course.name` includes the lowercase `searchText`.
+
+     === : Is a strict equality operator in JavaScript. It checks if two values are equal in both value and type. -->
+
+<!--The `slice()` method is commonly used with strings, arrays, and typed arrays.
+    The `slice()` method allows you to extract a portion of a string and create a new string from that portion.
+    The `slice()` method takes two optional parameters: start and end.
+    These parameters specify the indices that define the portion of the string to be extracted.
+    The start index is inclusive, meaning the character at that index will be included in the extracted portion. 
+    The end index is exclusive, meaning the character at that index will not be included.
+
+    NOTE : The `slice()` method does not modify the original string.
+           It returns a new string with the extracted portion. 
+           If you want to modify the original string, you need to assign the result back to the same string variable or a new variable
+
+        const myString: string = "Hello, World!";
+        const slicedString: string = myString.slice(7, 12);
+
+        console.log(slicedString); // Output: World
+
+        If you omit the end parameter, 
+        slice() will extract the portion of the string starting from the start index to the end of the string.
+
+        const myString: string = "Hello, World!";
+        const slicedString: string = myString.slice(7);
+
+        console.log(slicedString); // Output: World!  -->

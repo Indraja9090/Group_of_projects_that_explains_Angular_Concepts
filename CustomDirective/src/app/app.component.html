@@ -1,0 +1,99 @@
+<!-- CONCEPT : Custom Attribute Directive, `Renderer2`, `@HostListener()`, `@HostBinding()`
+       NOTE : Directives are simply an instruction to the DOM -->
+<!-- Ingeneral we use `ElementRef` to manipulate the DOM by using its `nativeElement` property
+                              which has the DOM's actual <HTML element> Which is not advisable. 
+      Better way to access DOM's actual <HTML element> is using `Renderer2`  -->
+<!--1. `Renderer2` class  - Provide the layer of Abstraction - which Allows
+              to manipulate the DOM without access the DOM'S actual <HTML element> directly 
+    2. The` @HostListener` decorator - allows you to listen to events on the host <element> of a component or directive.			                            				
+    3. The `@HostBinding` decorator - Used to DEFINE A PROPERTY on a `Component` or `Directive` class which will assign
+                                 the value to its BINDED HTML property or attribute which will be applied on host <element>.-->                        
+<!-- PROJECT CODE CONCEPT :  Passing data from Component to Directive class	 using custom property binding.
+              To use custom property binding we need to define property decorated with `@Input` in Directive class,
+                              And on host <element> this property gonna bind to value from Component -->
+
+<!--<h1 setBackground>This is AppComponent</h1> -->
+<div class="container" setBackground appHover>
+  <p> This is a demo HTML content to understand CUSTOM ATTRIBUTE DIRECTIVE `setBackground` &  `appHoverwhose` whose associted Directive classes
+              sets DOM element's HTML attribute `style` property `backgroundColor` and applies `@HostListener` event  </p>
+</div>
+<div appHighlight  appHover>
+  <h3> This is a demo HTML content to understand appHightlight & appHover CUSTOM ATTRIBUTE DIRECTIVE whose associted Directive classes,</h3>
+  <h4>has Renderer2 class `setStyle()`, `addClass()` methods and `@HostListener` decorator.</h4>
+</div>
+
+<!--<div class="container" appBetterHighlight [defaultColor]="'yellow'" [highlightColor]="'red'">-->
+
+<!--directive `selector` value `appBetterHighlight` can be given as Alias name to Directive class `@Input` property `highlightColor`
+          hence values that are binded to ``appBetterHighlight`` will be passed to custom property `highlightColor`-->
+<div class="container" [appBetterHighlight]="'red'" [defaultColor]="'yellow'" [title]="'I am value from Component applied on custom directive referenced element'" >
+  <p> This is a demo HTML content to understand CUSTOM ATTRIBUTE DIRECTIVE in Angular </p>
+</div>
+<!-- CONCEPT : Creating custom Attribute Directive similar to [ngStyle]-->
+<!--Important to wrap the CSS propert values `'pink'&'white'` in quotes bcoz these are string literals which gonna assign to `backgroundColor`&`color`-->
+<!--NOTE THAT :   `appNgstyle` directive selector on host element  tells Angular to first look for `setStyle` custom property at Directive class,
+		If Angular doesnt find `setStyle` then it look for <div>'s HTML Attribute property-->
+
+<!--<div class="container" appNgstyle [setStyle]="{backgroundColor: 'pink', color: 'white', fontWeight: 'bold'}">-->
+
+<!--In this approach we should ONLY BE ABLE TO bind `CSS style from Component` to directive selector
+              - either, we can give `selector` value `appNgstyle` as alias name to @Input property i.e.,`setStyle` at `NgStyleDirective` class
+              - or, we can replace name of @Input property i.e.,`display` with selector value `appNgStyle` --> 
+
+<!-- <div class="container" [appNgstyle]="{backgroundColor: 'pink', color: 'white', fontWeight: 'bold'}">  -->
+
+<!-- CONCEPT : On a condition basis, How to set the value of CSS `style` property value to custome Attribute directive referenced `host element`-->
+<div class="container" [appNgstyle]="{backgroundColor: isActive ? 'Green' : 'Red', color: 'white', fontWeight: 'bold'}">
+    <p> This is a demo HTML content to understand how to create Custom Attribute directive similar to [ngStyle] in Angular.</p>
+</div>
+<!-- CONCEPT : Creating custom Attribute Directive similar to [ngClass]-->
+<!-- SYNTAX : [ngClass]="{'CSS_classname1':condition,'CSS_classname2':condition}" - used to apply CSS class dynamically on an <HTML element>-->
+<!-- Using setter method we defined @Input property i.e.,`display` as method() in Directive class which allow us to write logic code inside it
+                  inorder to set CSS styles to host element using CSS class values received as parameter to this `display` method()		-->
+<!--<div appNgclass [display]="{container: true, 'change-font': true}">-->
+<!-- Inorder to make use of custom directive selector i.e.,`appNgclass` similar to [ngClass] 
+                      - either, we need to give `appNgClass` as alias name to @Input property i.e.,`display` at `NgClassDirective` class
+                      - or, we can replace name of @Input property i.e.,`display` with selector value `appNgclass` -->
+<!-- REMEMBER we hardcoded the Condition values here, but instead we can use
+			- any `TypeScript expression` or `var-property / method()` which returns a `boolean` value -->
+<div [appNgclass]="{container: 10 > 5, 'change-font': true}"> 
+  <p> This is a demo HTML content to understand how to create Custom Attribute directive similar to [ngClass] in Angular.
+      POINT TOBE NOTED - Custom Attribute directive's CSS will be applied only their condition values are true.
+  </p>
+</div>
+<!-- REMEMBER - The propertyname of an object shouldnt containe hyphen `-` ,BUT
+		            If it does contain hyphen `-` then propertyname should be wrapped in quotes `" "` -->
+<!-- REMEMBER - 1.We can give custom directive `selector` value as an alias name to Directive class `@Input` property.
+         2.If we did then, we must use this alias name on host element hence 
+                          its binded value from component will be assigned to its associated `@Input` property at Directive class   -->                     
+<!--	NOTE THAT : IF directive selector host <element> has `custom property` whose name is similar to built-in HTML Attribute like `title`,`style` etc
+        by seeing directive selector on host <element> Angular first look for that `custom property` at Directive class,
+                  - If Angular finds it then it will be consider as Directive class `custom property'
+                  - If Angular doesnt find then it will be consider as <html element>'s built-in Attribute' -->
+<!-- `Renderer2 ` - 
+    1. In Angular, the `Renderer2` class is a utility class provided by the Angular framework 
+    	that allows you to manipulate and interact with the DOM (Document Object Model).
+    2. The `Renderer2` class provides various methods to modify the style, attributes, and structure of DOM elements.        -->
+
+<!-- PROJECT CODE EXPLANATION :
+    1.We defined custom directive `setBackground` to change the background color of host <element>                               
+	                     by directly accessing host <element> reference from DOM 
+    2.We defined custom directive `appHighlight` which uses `Renderer2` 
+	      to set CSS style & to Apply CSS class & to set HTML Attribute values to host <element>
+                         without directly accessing host <element> reference from DOM 
+    3.We defined custom directive `appHover` which uses `Renderer2` to modify view structure of host <element> with respect to 	       
+             @HostListener('eventname')'s eventhandler methods which are defined in custom Directive class 
+                                                           without directly accessing host <element> reference from DOM 
+    4.We defined custom directive `appBetterHighlight` which uses `Renderer2` to change the background color of host <element> with respect to	      
+        @HostBinding('HTML property') property & @HostListener('eventname')'s eventhandler methods  which are defined in custom Directive class 
+                        without directly accessing host <element> reference from DOM 
+
+    # Using above custom Directive selectors on <HTML element>
+
+    1.setting a `CSS style`- dynamically to that <HTML element> without `Renderer2` class methods
+                                      which means manipulating DOM by directly accessing the referenced DOM <elements>
+	  2.setting a `CSS style`,`CSS class`,`HTML Attribute` - dynamically to that <HTML element> using `Renderer2` class methods ,
+		                                  
+	  3.setting a `CSS style`,`CSS class`,`HTML Attribute`- dynamically to that <HTML element> on using `Renderer2` class methods
+                               based on @HostListener() events, which means manipulating DOM wothout directly accessing the referenced DOM <elements> -->
+

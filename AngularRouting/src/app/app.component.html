@@ -1,0 +1,145 @@
+<div class="mian-container">
+
+  <div class="nav-container">
+    <ul>
+      <!--<li><a href="home">Home</a></li>
+      <li><a href="about">About</a></li>
+      <li><a href="contact">Contact</a></li>
+      <li><a href="courses">Courses</a></li>--> 
+
+      <!--CONCEPT: How to navigate between the URL Routes using the `routerLink` directive 
+                   We use `routerLink` directive in VIEW TEMPLATE to bind clickable HTML element to a URL route
+      Hence when the user cliks on `routerLink` HTML element the router will navigestes to the associated URL route-->   
+
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="" >Home</a></li>          
+      <li [routerLinkActive]="'active'"><a [routerLink]="'/about'" >About</a></li>          
+      <li [routerLinkActive]="'active'"><a [routerLink]="['contact']" >Contact</a></li>
+      <li routerLinkActive="active"><a routerLink="courses" >Courses</a></li>
+      <span style="float: right">
+        <li (click)="logIn()"><a>LogIn</a></li>
+        <li (click)="logOut()"><a>LogOut</a></li>
+      </span>
+
+      <!--Passing Fragments to Route-->       
+      <!-- empty path nothing by ROOT URL http://localhost:4200/ -->
+     <!--
+       <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                    //  clicking on following <a> links appends corresponding `fragment` to ROOT URL 
+        <a routerLink="" [fragment]="'home'">Home</a>          //http://localhost:4200/#home
+      </li>          
+      <li [routerLinkActive]="'active'">
+        <a [routerLink]="''" fragment="about">About</a>   //http://localhost:4200/#about
+      </li>         //If wanna use [] must set its value in ''         
+      <li [routerLinkActive]="'active'">
+        <a routerLink="" fragment="contact">Contact</a>   //http://localhost:4200/#contact
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="" fragment="courses">Courses</a>   //http://localhost:4200/#courses
+      </li>
+    -->
+    </ul>
+  </div>
+
+  <div class="component-container">
+    <!--CONCEPT : Passing Fragments to Route-->
+    <!--<app-home id="home"></app-home><hr>
+    <app-about id="about"></app-about><hr>
+    <app-contact id="contact"></app-contact><hr>
+    <app-courses id="courses"></app-courses>-->
+    <!--CONCEPT : enable tracing for Navigation events-->
+    <!--Application Concept : When we try to navigate "from one path to `courses` path ", 
+                        its associated component will be rendered after 5sec BCOZ of  `resolve` guard 
+        This is where user might give multiple clicks on `courses` path nav item
+      Hence we are implementing some buffering logic in component 
+          where we have placed <router-outlet> which replaced with active nav item route path's View template -->
+    <router-outlet id="course"></router-outlet> 
+    <div class="spinner" *ngIf="displayLoadingIndicator"></div>  
+  </div>
+</div>  
+<!--`router-outlet` is a Directive which tells Angular that 
+                            Where in our page we want to display the router path associated Component's View
+                          This `router-outlet` directive is imported automatically 
+                                              when we import `RouterModule` in AppModule-->  
+                  
+<!-- routes should be enclosed in single quotes or double quotes when using property binding with [routerLink].
+  This ensures that the route is treated as a string and passed correctly to the routerLink directive,
+                    Otherwise [routerLink] would consider it as a propertyname-->
+
+<!--`['contact']` is an array that represents the route path and parameters. 
+            The first element in the array, is the static part of the route, representing the base path for navigating route.
+            The second element, is the dynamic part that represents the actual variable value associated to the statis part of route.-->
+
+ <!--Since empty route path='' url http://localhost:4200  is the parent to its all child routes,then
+              When a child route is active then all the parent routes are also marked as active,
+                  and the routerLinkActive directive is applied to the URL tree cascading all the way to top
+          To overcome this issues we use `routerLinkActiveOptions` directive assigned with an object.
+          the {exact: true} option is used to indicate that the active class should only be applied
+                    when the route path matches exactly, and not when it is a partial match.-->
+
+<!-- `Fragment ` is used to navigate to a specific section or fragment within a webpage.
+  When a fragment is added to a URL, it is typically represented by an pound (#) followed by a fragment identifier.
+         When the URL is loaded, the browser will scroll to the section of the webpage that
+                                                                 has the corresponding fragment identifier
+          Since `fragment` is an Attribute Directive we can dind value to it.In this case we must wrap the value in `''`-->
+
+<!--Path:It represents a part of the URL that comes after the domain name.
+         For example, in the URL "https://www.example.com/products/shoes," the path is "/products/shoes."
+        
+    URL:  It consists of multiple components, including 
+                       the protocol (e.g., "https://"), 
+                       the domain name (e.g., "www.example.com"), and 
+                       the path (e.g., "/products/shoes").   
+                      
+    Link:  Links are created using the `href` attribute, which specifies the URL or path that the link should point to.
+           For example, <a href="/products">Products</a> creates a link to the "/products" path.                 
+          
+    Route:A route, in the context of Angular routing, defines the mapping between a specific URL path and a corresponding component to be displayed.
+          Routes are typically defined in an Angular routing module using the `Routes` array,
+               where each route object contains a `path` property specifying the URL path and
+                                                a component property specifying the associated component. -->
+
+<!--If you want the link to point to a specific path relative to the current URL or path, you can use a RELATIVE URL without the leading `/`.
+  let's assume the current URL or path is "https://www.example.com/home".
+                If we use <a href="products">Products</a>,
+                it creates a relative URL of "https://www.example.com/home/products".
+  In this case, the "products" path is appended to the current URL or path, resulting in a new URL.
+
+    If you want the link to point to a specific path relative to the root of the domain, you should use an ABSOLUTE URL with the leading `/`.
+    let's assume the current URL or path is "https://www.example.com/home".
+                      If we use <a href="/products">Products</a>,
+                      it creates a relative URL of "https://www.example.com/products".--> 
+
+<!--The <a> tag in HTML is an anchor tag used to create a hyperlink, commonly known as a Navigation link.
+   It is primarily used to navigate to another web page or a specific location within the same page when clicked.
+   The <a> tag can also be used with the routerLink directive in Angular to create links 
+                     for navigating between different routes within an Angular application. -->
+
+<!--Routes in Angular are defined using the Angular Router module. 
+  The router module provides functionality to handle client-side navigation, map URLs to components, and 
+                                               render the appropriate component based on the current route.-->
+                     
+<!--The `href` attribute is commonly used in HTML to specify the URL of a resource,
+                               such as a webpage or a file, that a hyperlink should point to. 
+        Page Reloads: When a user clicks on a hyperlink with an href attribute, 
+                          it typically causes a page reload or navigation to the specified URL.
+                      This can disrupt the user experience, especially if the user wants to stay\   
+                                                   on the current page and interact with it further.-->
+
+<!--The `routerLink` directive is used in Angular applications 
+             to navigate between different views or routes within the application.
+    It provides a convenient and declarative way to define navigation links 
+                                    without explicitly using the `href` attribute.-->
+
+<!--The `routerLink` directive accepts a route path or an array of route segments as its value. -->
+      <!--When the link is clicked, Angular's router navigates to the specified route, 
+                                  updating the URL and rendering the corresponding component.-->
+      <!--`routerLink` supports passing route parameters, making it easy to create dynamic routes based on data-->
+
+      <!-- We can apply CSS class or classes to an element based on the current active route using `routerLinkActive` -->
+
+<!--The `routerLinkActive` directive is typically applied to the HTML element 
+                                that represents the navigation link, such as an <a> tag.
+   When the route specified in the `routerLink` directive is active, 
+                                the specified CSS class or classes will be added to the element.-->
+<!--The [routerLinkActiveOptions] is used with the routerLinkActive directive in Angular to provide additional options
+                             for determining when the `active` CSS class should be applied to the element.-->

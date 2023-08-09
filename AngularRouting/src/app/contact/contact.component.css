@@ -1,0 +1,55 @@
+.form-container {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: #c2bfbf;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input[type="text"],
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .form-group select {
+      height: 36px;
+    }
+
+    .form-group textarea {
+        width: 100%;
+        height: 80px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+  
+      .form-group textarea::placeholder {
+        padding: 0; /* Remove padding for placeholder text */
+        font-style: italic; /* Optionally, apply italic style to the placeholder text */
+      }
+    .submit-button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      /*border: none;*/
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background-color: #0c5710;
+    }
